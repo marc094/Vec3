@@ -1,5 +1,8 @@
-#pragma once
+#ifndef __Vec3__
+#define __Vec3__
+
 #include <cmath>
+#include <stdio.h>
 
 template <class TYPE>
 class Vec3 {
@@ -8,25 +11,15 @@ private:
 	TYPE x, y, z;
 
 public:
-	Vec3 operator +(const Vec3 other) {
-		Vec3 ret = {
-			x + other.x,
-			y + other.y,
-			z + other.z
-		};
-		return ret;
+	Vec3 operator +(const Vec3& other) const {
+		return { x + other.x, y + other.y, z + other.z };
 	}
 
-	Vec3 operator -(const Vec3 other) {
-		Vec3 ret = {
-			x - other.x,
-			y - other.y,
-			z - other.z
-		};
-		return ret;
+	Vec3 operator -(const Vec3& other) const {
+		return { x - other.x, y - other.y, z - other.z };
 	}
 
-	Vec3& operator +=(const Vec3 other) {
+	Vec3& operator +=(const Vec3& other) {
 		x += other.x;
 		y += other.y;
 		z += other.z;
@@ -34,7 +27,7 @@ public:
 		return *this;
 	}
 
-	Vec3& operator -=(const Vec3 other) {
+	Vec3& operator -=(const Vec3& other) {
 		x -= other.x;
 		y -= other.y;
 		z -= other.z;
@@ -42,7 +35,7 @@ public:
 		return *this;
 	}
 
-	Vec3& operator = (const Vec3 other) {
+	Vec3& operator = (const Vec3& other) {
 		x = other.x;
 		y = other.y;
 		z = other.z;
@@ -52,30 +45,17 @@ public:
 		return (x == other.x && y == other.y && z == other.z);
 	}
 
-	Vec3<float> Normalise() {
+	Vec3<float> GetNormalised() {
 		float module = sqrt(x*x + y*y + z*z);
-
-		Vec3<float> ret = {
-			(float)x / module,
-			(float)y / module,
-			(float)z / module
-		};
-
-		return ret;
+		return { (float)x / module, (float)y / module, (float)z / module };
 	}
 
 	Vec3 Zero() {
-		Vec3 ret = {
-			0,
-			0,
-			0
-		};
-
-		return ret;
+		return { 0, 0, 0 };
 	}
 
 	bool is_Zero() {
-		return this == {0, 0, 0};
+		return (x == 0 && y == 0 && z == 0);
 	}
 
 	float distance_to(const Vec3 other) {
@@ -85,13 +65,17 @@ public:
 		return module;
 	}
 
-	Vec3(TYPE _x, TYPE _y, TYPE _z) {
+	void Log() const {
+		printf("\n< %f, %f, %f >", (float)x, (float)y, (float)z);
+	}
+
+	Vec3(const TYPE& _x, const TYPE& _y, const TYPE& _z) {
 		x = _x;
 		y = _y;
 		z = _z;
 	}
 
-	Vec3(TYPE _x, TYPE _y) {
+	Vec3(const TYPE& _x, const TYPE& _y) {
 		x = _x;
 		y = _y;
 		z = 0;
@@ -106,3 +90,5 @@ public:
 	}
 
 };
+
+#endif
